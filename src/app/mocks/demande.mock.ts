@@ -1,4 +1,4 @@
-import { Demande } from '../features/private/demande-rv/models/demande.model';
+import { Demande } from '../core/models/demande.model';
 
 export const MOCK_DEMANDES: Demande[] = [
   { id: 1, dateDemande: '2024-07-01', heure: '10:00', statut: 'en attente', specialite: 'cardiologie' },

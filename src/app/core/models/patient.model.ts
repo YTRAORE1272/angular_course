@@ -1,4 +1,5 @@
 export interface Patient {
+  id?: number;
   numero: string;
   nom: string;
   prenom: string;
@@ -7,3 +8,5 @@ export interface Patient {
   adresse: string;
   antecedents?: string;
 }
+
+export type PatientRequest = Omit<Patient, 'id'>;

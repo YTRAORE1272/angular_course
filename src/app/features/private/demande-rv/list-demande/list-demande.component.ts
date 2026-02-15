@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Demande, Specialite, Statut } from '../models/demande.model';
-import { DemandeFilter } from '../models/demande-filter.model';
-import { DemandeResponse } from '../models/demande-response.model';
-import { DemandeService } from '../services/demande.service';
+import { DemandeFilter, DemandeResponse } from '../../../../core/models/demande.model';
+import { DemandeService } from '../../../../core/services/demande.service';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { StatusComponent } from '../../../../shared/components/status/status.component';
 
 @Component({
   selector: 'app-list-demande',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, PaginationComponent, StatusComponent],
   templateUrl: './list-demande.component.html',
   styleUrl: './list-demande.component.css'
 })

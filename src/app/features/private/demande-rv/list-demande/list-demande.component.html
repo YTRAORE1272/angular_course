@@ -52,22 +52,7 @@
                                 <td>{{ demande.dateDemande }}</td>
                                 <td>{{ demande.heure }}</td>
                                 <td>
-                                    @if(demande.statut === 'accepté') {
-                                        <span class="badge bg-success text-white">
-                                            <i class="bi bi-check-circle"></i>
-                                            Accepté
-                                        </span>
-                                    } @else if(demande.statut === 'refusé') {
-                                        <span class="badge bg-danger text-white">
-                                            <i class="bi bi-x-circle"></i>
-                                            Refusé
-                                        </span>
-                                    } @else {
-                                        <span class="badge bg-warning text-dark">
-                                            <i class="bi bi-clock-history"></i>
-                                            En attente
-                                        </span>
-                                    }
+                                    <app-status [statut]="demande.statut"></app-status>
                                 </td>
                             </tr>
                         } @empty {
@@ -84,22 +69,10 @@
             </div>
         </div>
 
-        <!-- Pagination -->
-        @if(response.totalPage > 1) {
-            <nav class="mt-4" aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" [class.disabled]="response.currentPage === 1">
-                        <a class="page-link" (click)="onPageChange(response.currentPage - 1)" style="cursor: pointer;">Précédent</a>
-                    </li>
-                    @for (page of response.pages; track page) {
-                        <li class="page-item" [class.active]="response.currentPage === page">
-                            <a class="page-link" (click)="onPageChange(page)" style="cursor: pointer;">{{ page }}</a>
-                        </li>
-                    }
-                    <li class="page-item" [class.disabled]="response.currentPage === response.totalPage">
-                        <a class="page-link" (click)="onPageChange(response.currentPage + 1)" style="cursor: pointer;">Suivant</a>
-                    </li>
-                </ul>
-            </nav>
-        }
+        <app-pagination 
+            [currentPage]="response.currentPage" 
+            [totalPages]="response.totalPage" 
+            [pages]="response.pages"
+            (pageChange)="onPageChange($event)">
+        </app-pagination>
     </div>

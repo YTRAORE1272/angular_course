@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MOCK_DEMANDES } from '../../../../mocks/demande.mock';
-import { Demande } from '../models/demande.model';
-import { DemandeFilter } from '../models/demande-filter.model';
-import { DemandeResponse } from '../models/demande-response.model';
-import { environment } from '../../../../../environments/environment';
+import { MOCK_DEMANDES } from '../../mocks/demande.mock';
+import { Demande, DemandeFilter, DemandeResponse } from '../models/demande.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

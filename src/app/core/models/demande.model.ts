@@ -9,3 +9,17 @@ export interface Demande {
   statut: Statut;
   specialite: Specialite;
 }
+
+export interface DemandeFilter {
+  specialite?: Specialite;
+  statut?: Statut;
+  dateDemande?: string;
+}
+
+export interface DemandeResponse {
+  data: Demande[];
+  totalPage: number;
+  currentPage: number;
+  totalItems: number;
+  pages: number[];
+}

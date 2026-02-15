@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Patient } from '../models/patient.model';
+import { Patient, PatientRequest } from '../models/patient.model';
+import { MOCK_PATIENTS } from '../../mocks/patient.mock';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
-  private patients: Patient[] = [];
+  private patients: Patient[] = MOCK_PATIENTS;
 
   constructor() {}
 
-  createPatient(patient: Patient): boolean {
-    this.patients.push(patient);
-    return true;
+  createPatient(patientRequest: PatientRequest): Patient {
+    const newPatient: Patient = {
+      ...patientRequest,
+      id: this.patients.length + 1
+    };
+    this.patients.push(newPatient);
+    return newPatient;
   }
 
   getPatients(): Patient[] {
