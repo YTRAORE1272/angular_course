@@ -26,11 +26,11 @@
                 <div class="d-flex align-items-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-light text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Patient
+                            {{ patient ? (patient.prenom + ' ' + patient.nom) : 'Patient' }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Profil</a></li>
-                            <li><a class="dropdown-item" href="#">Se déconnecter</a></li>
+                            <li><a class="dropdown-item" routerLink="/private/profile" style="cursor: pointer;">Profil</a></li>
+                            <li><a class="dropdown-item" (click)="onLogout()" style="cursor: pointer;">Se déconnecter</a></li>
                         </ul>
                     </div>
                 </div>

@@ -11,15 +11,25 @@
                 
                 <h2 class="text-center mb-4">Se connecter</h2>
                 
-                <form action="dashboard.html">
+                @if(errorMessage) {
+                    <div class="alert alert-danger" role="alert">
+                        {{ errorMessage }}
+                    </div>
+                }
+                
+                <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Login</label>
-                        <input type="text" class="form-control" id="username" placeholder="Email ou nom d'utilisateur" required>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" 
+                               [(ngModel)]="email" name="email"
+                               placeholder="patient@gmail.com" required email>
                     </div>
                     
                     <div class="mb-3">
                         <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" placeholder="Mot de passe" required>
+                        <input type="password" class="form-control" id="password" 
+                               [(ngModel)]="password" name="password"
+                               placeholder="Mot de passe" required>
                     </div>
                     
                     <div class="text-end mb-3">
@@ -27,12 +37,12 @@
                     </div>
                     
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary text-white">Se connecter</button>
+                        <button type="submit" class="btn btn-primary text-white" [disabled]="!loginForm.valid">Se connecter</button>
                     </div>
                 </form>
                 
                 <div class="text-center mt-4">
-                    <p class="text-muted small">Pas encore inscrit? <a href="#" class="text-primary text-decoration-none">S'inscrire</a></p>
+                    <p class="text-muted small">Pas encore inscrit? <a routerLink="/public/create-patient" class="text-primary text-decoration-none">S'inscrire</a></p>
                 </div>
             </div>
         </div>
