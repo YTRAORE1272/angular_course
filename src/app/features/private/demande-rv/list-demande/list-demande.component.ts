@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { DemandeFilter, DemandeResponse } from '../../../../core/models/demande.model';
 import { DemandeService } from '../../../../core/services/demande.service';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
@@ -8,12 +10,15 @@ import { StatusComponent } from '../../../../shared/components/status/status.com
 
 @Component({
   selector: 'app-list-demande',
-  imports: [RouterLink, FormsModule, PaginationComponent, StatusComponent],
+  standalone: true,
+  imports: [RouterLink, FormsModule, CommonModule, PaginationComponent, StatusComponent],
   templateUrl: './list-demande.component.html',
   styleUrl: './list-demande.component.css'
 })
-export class ListDemandeComponent implements OnInit {
+export class ListDemandeComponent implements OnInit, OnDestroy {
   title: string = "Liste des demandes de rendez-vous";
+  loading: boolean = false;
+  private subscription?: Subscription;
 
   filter: DemandeFilter = {
     statut: '',
@@ -28,14 +33,41 @@ export class ListDemandeComponent implements OnInit {
     pages: []
   };
 
-  constructor(private demandeService: DemandeService) {}
+  constructor(
+    private demandeService: DemandeService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadDemandes();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   private loadDemandes(): void {
-    this.response = this.demandeService.getDemandes(this.filter, this.response.currentPage);
+    this.loading = true;
+    this.cdr.detectChanges();
+    
+    this.subscription = this.demandeService.getDemandes(this.filter, this.response.currentPage)
+      .subscribe({
+        next: (response) => {
+          this.response = response;
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement des demandes:', error);
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
+        complete: () => {
+          console.log('Chargement des demandes terminé');
+        }
+      });
   }
 
   onFilterChange(): void {
