@@ -3,7 +3,7 @@
         <div class="col-md-8">
             <h1 class="mb-4"><i class="bi bi-person-circle"></i> Mon Profil</h1>
             
-            @if(patient) {
+            @if(patient$ | async; as patient) {
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
                         <div class="row mb-3">
@@ -48,9 +48,11 @@
                     </div>
                 </div>
             } @else {
-                <div class="alert alert-warning">
-                    <i class="bi bi-exclamation-triangle"></i> Aucune information patient disponible
-                </div>
+                <app-alerte 
+                    message="Aucune information patient disponible" 
+                    type="warning" 
+                    icon="exclamation-triangle">
+                </app-alerte>
             }
         </div>
     </div>

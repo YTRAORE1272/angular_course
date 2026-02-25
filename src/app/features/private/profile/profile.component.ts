@@ -1,24 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Patient } from '../../../core/models/patient.model';
+import { AlerteComponent } from '../../../shared/components/alerte/alerte.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule],
+  imports: [CommonModule, AlerteComponent],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrl: './profile.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
-  patient: Patient | null = null;
+  patient$!: Observable<Patient | null>;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.patient = this.authService.getCurrentPatient();
-    if (!this.patient) {
-      this.router.navigate(['/private/dash']);
-    }
+    this.patient$ = this.authService.patient$;
   }
 }

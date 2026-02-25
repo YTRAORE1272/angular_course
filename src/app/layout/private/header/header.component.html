@@ -11,25 +11,38 @@
             <div class="collapse navbar-collapse" id="dashboardNavbar">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item px-2">
-                        <a class="nav-link text-white " routerLinkActive="active" routerLink="/private/dash">Tableau de bord</a>
+                        <a class="nav-link text-white" routerLinkActive="active" routerLink="/private/dash">Tableau de bord</a>
                     </li>
-                    <li class="nav-item px-2">
-                        <a class="nav-link text-white"  routerLinkActive="active" routerLink="/private/create-demande">Demander RV</a>
-                    </li>
-                    <li class="nav-item px-2">
-                        <a class="nav-link text-white" routerLinkActive="active" routerLink="/private/liste-demande-rv">Mes Demandes</a>
-                    </li>
-                    <li class="nav-item px-2">
-                        <a class="nav-link text-white"   routerLinkActive="active" routerLink="/drv">Mes RV</a>
-                    </li>
+                    @if(isPatient()) {
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-white" routerLinkActive="active" routerLink="/private/create-demande">Demander RV</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-white" routerLinkActive="active" routerLink="/private/rv">Mes RV</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-white" routerLinkActive="active" routerLink="/private/dossier-medical">Dossier Médical</a>
+                        </li>
+                    }
+                    @if(isSecretaire()) {
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-white" routerLinkActive="active" routerLink="/private/liste-demande-rv">Demandes RV</a>
+                        </li>
+                    }
                 </ul>
                 <div class="d-flex align-items-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-light text-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ patient ? (patient.prenom + ' ' + patient.nom) : 'Patient' }}
+                            @if(isPatient() && patient) {
+                                {{ patient.prenom + ' ' + patient.nom }}
+                            } @else {
+                                {{ userName }}
+                            }
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" routerLink="/private/profile" style="cursor: pointer;">Profil</a></li>
+                            @if(isPatient()) {
+                                <li><a class="dropdown-item" routerLink="/private/profile" style="cursor: pointer;">Profil</a></li>
+                            }
                             <li><a class="dropdown-item" (click)="onLogout()" style="cursor: pointer;">Se déconnecter</a></li>
                         </ul>
                     </div>
